@@ -13,16 +13,14 @@ class Program
 
         //Create x_points array
         //this should become from an user input
-        //x_arr = Utis_np.linspace(0, 10, 5);
+        x_arr = Utis_np.linspace(Math.PI, 0, 5);
+        x_arr = Utis_np.theta_dist(x_arr);
         double[] vect = Utis_rotvect.vect_sample_2D();
         double[,] mtx = Utis_rotvect.mtx_G2L(90);
-        Utis_np.prnt_arr(vect, "PRE ROT");
         vect = Utis_rotvect.rot_vect(vect, mtx);
-        Utis_np.prnt_arr(vect, "POST ROT");
-        Utis_np.prnt_mtrx(mtx);
 
 
-        //Profile_NACA4412 Prof_test = new Profile_NACA4412(x_arr); //Init prof obj
+        Profile_NACA4412 Prof_test = new Profile_NACA4412(x_arr); //Init prof obj
         Console.ReadKey();
     }
     static void NewCMD()

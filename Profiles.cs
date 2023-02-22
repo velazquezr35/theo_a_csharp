@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 class Profile_NACA4412
 {
@@ -9,16 +10,25 @@ class Profile_NACA4412
 
     public Profile_NACA4412(double[] x_arr)
     {
-        Console.WriteLine("PROF NACA: x-arr based constructor called for {0} points", x_arr.Length);
+        Console.WriteLine("PROF NACA4412 CONSTRUCTOR CALLED FOR {0} POINTS", x_arr.Length);
         gen_eqs(x_arr);
     }
 
+    double[] prep_xps(double[] arr)
+    {
+        double[] temp_arr = new double[arr.Length-1];
+        for (int i = arr.Length-1; i > 0; i--)
+        {
+            Console.WriteLine(i);
+            temp_arr[arr.Length-1-i] = arr[i-1];
+        }
+        Utis_np.prnt_arr(temp_arr);
+        arr = arr.Concat(temp_arr).ToArray();
+        return arr;
+    }
     void gen_eqs(double[] x_arr)
     {
-        Console.WriteLine("Gen_eqs method called...");
-        double[] loc_test = new double[x_arr.Length];
-        loc_test = Utis_np.arr_mult_val(x_arr, 2);
-        Utis_np.prnt_arr(loc_test);
-        Utis_np.prnt_arr(x_arr);
+        Console.WriteLine("GEN EQS METHOD CALLED");
+        Utis_np.prnt_arr(prep_xps(x_arr));
     }
 }

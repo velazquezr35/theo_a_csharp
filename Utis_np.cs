@@ -17,6 +17,15 @@ public class Utis_np
         Console.WriteLine(delta);
         return linspace;
     }
+
+    public static double[] theta_dist(double [] arr) {
+        for (int i = 0; i<arr.Length; i++)
+        {
+            arr[i] = 0.5 * (1 - Math.Cos(arr[i]));
+        }
+        return arr;
+    }
+
     public static void prnt_arr(double[] arr, string optionalname = "")
     {
         if (optionalname == "")
@@ -30,7 +39,7 @@ public class Utis_np
         
         for (int i = 0; i < arr.Length; i++)
         {
-            Console.Write(arr[i]);
+            Console.Write(arr[i].ToString("N"));
             Console.Write(' ');
         }
         Console.Write('\n');
