@@ -1,20 +1,51 @@
 ﻿using System;
+using System.Globalization;
+using System.Linq;
 
 public class Utis_np
 {
-    public static double ConvertToRadians(double angle)
+    public static double[] Arr_diff(double[] arr)
+    {
+        double[] diff = new double[arr.Length-1];
+
+        for (int i = 0; i < arr.Length-1; i++)
+        {
+            diff[i] = arr[i + 1] - arr[i];
+        }
+        return diff;
+    }
+
+    public static double[] Arr_midpoint(double[] dx, double[] x_arr)
+    {
+        double[] midpoint = new double[dx.Length];
+        for (int i = 0; i < dx.Length; i++)
+        {
+            midpoint[i] = (0.5*dx[i])+x_arr[i];
+        }
+        return midpoint;
+    }
+    public static double[] Arrs_arctan(double[] x_arr, double[] y_arr)
+    {
+        double[] thetas = new double[x_arr.Length];
+        for (int i = 0; i < x_arr.Length; i++)
+        {
+            thetas[i] = Math.Atan2(y_arr[i], x_arr[i]);
+        }
+        return thetas;
+    }
+    public static double convert2radians(double angle)
     {
         return (Math.PI / 180) * angle;
     }
     public static double[] linspace(double startval, double endval, int steps)
+        // Mimics numpy.linspace func (steps - 1)
     {
-        double delta = Math.Abs(startval - endval) / steps;
+        double delta = (endval - startval) / (steps-1);
         double[] linspace = new double[steps];
         for (int i = 0; i < steps; i++)
         {
             linspace[i] = startval + delta * i;
         }
-        Console.WriteLine(delta);
         return linspace;
     }
 
@@ -39,7 +70,7 @@ public class Utis_np
         
         for (int i = 0; i < arr.Length; i++)
         {
-            Console.Write(arr[i].ToString("N"));
+            Console.Write(arr[i].ToString("N5",CultureInfo.InvariantCulture));
             Console.Write(' ');
         }
         Console.Write('\n');
@@ -50,12 +81,12 @@ public class Utis_np
     {
         int rows = mtrx.GetLength(0);
         int cols = mtrx.GetLength(1);
-        Console.WriteLine("BEGIN MTRX PRNT, MTRX SHAPE: ({rows},{cols})");
+        Console.WriteLine($"BEGIN MTRX PRNT, SHAPE: ({rows},{cols})", rows, cols);
         for (int i =0; i<rows; i++)
         {
             for (int j = 0; j < cols; j++)
             {
-                Console.Write(mtrx[i, j].ToString("N"));
+                Console.Write(mtrx[i, j].ToString("N5", CultureInfo.InvariantCulture));
                 Console.Write(' ');
             }
             Console.WriteLine();
@@ -73,6 +104,13 @@ public class Utis_np
         }
         return arr;
     }
+
+    public static double[] appnd_last(double[] arr)
+    {
+        double[] last_value = new double[] { arr[arr.Length - 1] };
+        arr = arr.Concat(last_value).ToArray();
+        return arr;
+    }
 }
 public class Utis_rotvect
 {
@@ -87,16 +125,23 @@ public class Utis_rotvect
         return sample;
     }
 
-    public static double[,] mtx_L2G(double beta)
+    public static double[,] mtx_L2G(double beta, bool degrees = false)
     {
-        beta = Utis_np.ConvertToRadians(beta);
+        if (degrees)
+        {
+            beta = Utis_np.convert2radians(beta);
+        }
+        
         double[,] mtx = new double[2, 2] { { Math.Cos(beta), -Math.Sin(beta) },
         {Math.Sin(beta), Math.Cos(beta) } };
         return mtx;
     }
-    public static double[,] mtx_G2L(double beta)
+    public static double[,] mtx_G2L(double beta, bool degrees = false)
     {
-        beta = Utis_np.ConvertToRadians(beta);
+        if (degrees)
+        {
+            beta = Utis_np.convert2radians(beta);
+        }
         double[,] mtx = new double[2, 2] { { Math.Cos(beta), Math.Sin(beta) },
         {-Math.Sin(beta), Math.Cos(beta) } };
         return mtx;
@@ -110,8 +155,6 @@ public class Utis_rotvect
             for (int j = 0; j < l_col; j++)
             {
                 rotated[i] += vect[j] * mtrx[i,j];
-                Console.WriteLine(vect[j]);
-                Console.WriteLine(mtrx[j,i]);
             }
         }
         return rotated;
