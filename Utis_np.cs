@@ -96,18 +96,16 @@ public class Utis_np
 
     public static double[] arr_mult_val(double[] arr, double value)
     {
-        //double[] loc_test = new double[arr.Length];
         for (int i = 0; i<arr.Length; i++)
         {
-            //loc_test[i] = arr[i]*value;
             arr[i] *= value;
         }
         return arr;
     }
 
-    public static double[] appnd_last(double[] arr)
+    public static double[] appnd_first(double[] arr)
     {
-        double[] last_value = new double[] { arr[arr.Length - 1] };
+        double[] last_value = new double[] { arr[0] };
         arr = arr.Concat(last_value).ToArray();
         return arr;
     }

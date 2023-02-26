@@ -19,7 +19,7 @@ class Program
         x_arr = Utis_np.linspace(Math.PI, 0, 5);
         x_arr = Utis_np.theta_dist(x_arr);
 
-        Profile_NACA4412 Prof_test = new Profile_NACA4412(x_arr); //Init prof obj
+        Profile_NACA4412 Prof_test = new Profile_NACA4412(); //Init prof obj
         //NewCMD();
         Console.ReadKey();
         

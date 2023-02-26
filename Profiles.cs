@@ -42,6 +42,13 @@ class Profile_NACA4412 : Discr_Airfoil
         this.exporter = new CSV_Exporter(); //May send string fileloc here
         gen_dummy();
         update();
+        Utis_np.prnt_arr(this.x_points);
+        Utis_np.prnt_arr(this.y_points);
+        Utis_np.prnt_arr(this.dx);
+        Utis_np.prnt_arr(this.dy);
+        Utis_np.prnt_arr(this.dL);
+        Utis_np.prnt_arr(this.thetas);
+        Utis_np.prnt_mtrx(this.norms);
     }
 
     public void export_gen_info()
@@ -68,6 +75,8 @@ double[] prep_fliparr(double[] arr, bool y_flag = false)
         List<double[]> loc_points = ROT_tests.twoP_vpanel();
         this.x_arr = loc_points[0];
         this.y_arr = loc_points[1];
+        this.x_points = Utis_np.appnd_first(this.x_arr);
+        this.y_points = Utis_np.appnd_first(this.y_arr);
     }
     void gen_eqs()
     {
@@ -77,15 +86,13 @@ double[] prep_fliparr(double[] arr, bool y_flag = false)
         {
             this.y_arr[i] = ys_x(this.x_arr[i]);
         }
-        this.x_arr = prep_fliparr(this.x_arr);
-        this.y_arr = prep_fliparr(this.y_arr, true);
+        this.x_points = prep_fliparr(this.x_arr);
+        this.y_points = prep_fliparr(this.y_arr, true);
         
     }
 
     void update()
     {
-        this.x_points = this.x_arr; //Utis_np.appnd_last(this.x_arr);
-        this.y_points = this.y_arr; //Utis_np.appnd_last(this.y_arr);
         this.dx = Utis_np.Arr_diff(this.x_points);
         this.dy = Utis_np.Arr_diff(this.y_points);
 
